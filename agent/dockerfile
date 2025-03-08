@@ -1,0 +1,42 @@
+# jenkins/agent:latest-jdk17 이미지를 베이스로 사용
+FROM jenkins/agent:latest-jdk17
+
+# root 권한으로 전환하여 필요한 패키지 설치 진행
+USER root
+
+# 시간 동기화
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# docker CLI 설치
+RUN apt-get update && \
+    apt-get install -y docker.io && \
+    rm -rf /var/lib/apt/lists/*
+
+# Python3와 pip 설치 (FastAPI 실행에 필요)
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Gradle 설치 전 wget, unzip 등 필요한 도구 설치
+RUN apt-get update && \
+    apt-get install -y wget unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# 원하는 Gradle 버전 설정 (여기서는 예시로 7.6.1 사용)
+ENV GRADLE_VERSION 8.11.1
+
+# Gradle 다운로드 및 압축 해제
+RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -P /tmp && \
+    unzip -d /opt/gradle /tmp/gradle-${GRADLE_VERSION}-bin.zip && \
+    rm /tmp/gradle-${GRADLE_VERSION}-bin.zip && \
+    ln -s /opt/gradle/gradle-${GRADLE_VERSION} /opt/gradle/latest
+
+# 환경 변수 설정: GRADLE_HOME 및 PATH에 Gradle 추가
+ENV GRADLE_HOME /opt/gradle/latest
+ENV PATH $PATH:$GRADLE_HOME/bin
+
+# 다시 jenkins 사용자로 전환
+USER jenkins
+
+ENTRYPOINT ["java", "-jar", "/usr/share/jenkins/agent.jar"]

@@ -1,0 +1,17 @@
+# Jenkins 공식 LTS 이미지 기반
+FROM jenkins/jenkins:latest
+
+# root 사용자 권한
+USER root
+
+# 시간 동기화
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# 패키지 목록 업데이트 및 필수 패키지 설치
+RUN apt-get update
+RUN apt-get install -y docker.io
+RUN apt-get clean
+
+# jenkins 사용자 권한
+USER jenkins
