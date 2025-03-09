@@ -19,7 +19,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Python bcrypt 모듈 설치 (추가된 부분)
-RUN pip3 install --no-cache-dir bcrypt
+RUN pip3 install --no-cache-dir --break-system-packages bcrypt
 
 # Gradle 설치 전 wget, unzip 등 필요한 도구 설치
 RUN apt-get update && \
