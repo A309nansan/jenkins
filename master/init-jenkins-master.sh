@@ -71,10 +71,10 @@ wget -q "$CERT_URL" -O "$CERT_DEST"
 log "인증서 다운로드 완료."
 
 # UpdateCenter XML 파일 수정 (파일이 존재하는 경우에만)
-UPDATE_XML="/var/jenkins-master/hudson.model.UpdateCenter.xml"
+UPDATE_XML=/var/jenkins-master/hudson.model.UpdateCenter.xml
 if [ -f "$UPDATE_XML" ]; then
   log "${UPDATE_XML} 파일의 업데이트 센터 URL 수정 중."
-  sudo sed -i 's#https://updates.jenkins.io/update-center.json#https://raw.githubusercontent.com/lework/jenkins-update-center/master/updates/tencent/update-center.json#' "$UPDATE_XML"
+  sudo sed -i 's#https://updates.jenkins.io/update-center.json#https://raw.githubusercontent.com/lework/jenkins-update-center/master/updates/tencent/update-center.json#' ${UPDATE_XML}
 else
   log "${UPDATE_XML} 파일을 찾을 수 없어 수정 스킵."
 fi
