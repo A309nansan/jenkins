@@ -10,7 +10,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # docker CLI 설치
 RUN apt-get update && \
-    apt-get install -y docker.io && \
+    apt-get install -y docker.io jq && \
     rm -rf /var/lib/apt/lists/*
 
 # Python3와 pip 설치 (FastAPI 실행에 필요)
