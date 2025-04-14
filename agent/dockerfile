@@ -13,7 +13,7 @@ RUN apt-get update && \
     apt-get install -y docker.io jq && \
     rm -rf /var/lib/apt/lists/*
 
-# Python3와 pip 설치 (FastAPI 실행에 필요)
+# Python3와 pip 설치
 RUN apt-get update && \
     apt-get install -y python3 python3-pip && \
     rm -rf /var/lib/apt/lists/*
@@ -26,7 +26,7 @@ RUN apt-get update && \
     apt-get install -y wget unzip && \
     rm -rf /var/lib/apt/lists/*
 
-# 원하는 Gradle 버전 설정 (여기서는 예시로 7.6.1 사용)
+# 원하는 Gradle 버전 설정
 ENV GRADLE_VERSION 8.11.1
 
 # Gradle 다운로드 및 압축 해제
