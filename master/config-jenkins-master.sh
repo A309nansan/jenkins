@@ -17,7 +17,7 @@ trap 'error $LINENO' ERR
 log "스크립트 실행 시작."
 
 # 필수 명령어 확인
-for cmd in docker docker-compose stat wget sudo sed; do
+for cmd in docker stat wget sudo sed; do
   if ! command -v "$cmd" &>/dev/null; then
     log "필수 명령어 '$cmd'를 찾을 수 없습니다. 스크립트를 종료합니다."
     exit 1

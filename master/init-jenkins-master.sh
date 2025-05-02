@@ -38,7 +38,15 @@ else
 fi
 
 # Docker Compose로 서비스 실행
-log "Docker Compose로 서비스 실행 중..."
-docker compose up -d
+docker run -d \
+  --name jenkins-master \
+  --restart unless-stopped \
+  -p 14000:8080 \
+  -e DOCKER_HOST=unix:///var/run/docker.sock \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /var/jenkins-master:/var/jenkins_home \
+  --group-add ${DOCKER_GID} \
+  --network jenkins-network \
+  jenkins-master:latest
 
 echo "작업이 완료되었습니다."
